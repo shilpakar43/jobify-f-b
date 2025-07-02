@@ -104,6 +104,17 @@ const userController = {
                 })
             }
 
+            //check if user already exist with same contact number
+            const existingUserByContact = await User.getUserBycontactnumber(contactnumber);
+            if (existingUserByContact) {
+                return res.status(402).json({
+                    success: false,
+                    message: "User already exist with same contactnumber"
+                })
+            }
+
+
+
             const hashedPassword = md5(password);
             const newUser = await User.create({ firstname, lastname, email, contactnumber, password: hashedPassword });
 
